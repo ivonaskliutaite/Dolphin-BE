@@ -2,29 +2,32 @@ const express = require('express');
 const router = express.Router();
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-const fetch = require('node-fetch');
+const fetch = require('sync-fetch');
 
-/* GET users listing. */
-router.get('/articles', async (req, res) => {
-  const text = await fetch('http://www.delfi.lt')
-      .then(r => r.text());
+const getAllArticles = () => {
+  const delfiHomepageAsPlainText = fetch('https://www.delfi.lt').text();
+  const delfiHomepageDOM = new JSDOM(delfiHomepageAsPlainText).window.document;
 
-  const dom = new JSDOM(text);
-  const result = Array.from(dom.window.document.querySelectorAll('.headline'))
-      .filter(headlineEl => headlineEl.querySelector('.CBarticleTitle') != null)
-      .map(headlineEl => {
-        const articleNameAnchor = headlineEl.querySelector('.CBarticleTitle');
-        const url = articleNameAnchor.getAttribute('href');
-        const category = headlineEl.querySelector('.headline-category a');
+  const allArticleEls = delfiHomepageDOM.querySelectorAll('.headline')
+  const allArticlesAssArray = Array.from(allArticleEls)
+  const allArticles = allArticlesAssArray
+      .filter(articleDomEl => articleDomEl.querySelector('.CBarticleTitle')?.text)
+      .map(articleElement => {
+        const anchorEl = articleElement.querySelector('.CBarticleTitle')
+        const articleUrl = new URL(anchorEl.href)
         return {
-          articleName: articleNameAnchor.text,
-          url: url,
-            category: category != null ? category.text : null
+          title: anchorEl.text,
+          url: anchorEl.href,
+          id: parseInt(articleUrl.searchParams.get('id'))
         }
       })
-  // console.log(dom.window.document.querySelector("html").textContent);
 
-  res.json(result);
+  return allArticles;
+}
+
+/* GET users listing. */
+router.get('/articles',  (req, res) => {
+  res.json(getAllArticles());
 });
 
 router.get('/articles/:id', (req, res) => {

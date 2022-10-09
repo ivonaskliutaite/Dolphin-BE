@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5ae02ee9-4751-429d-8226-2e37e97772e0" name="Changes" comment="Initialize project.">
+    <list default="true" id="5ae02ee9-4751-429d-8226-2e37e97772e0" name="Changes" comment="Get articles summary (get all)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
@@ -77,7 +77,10 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1665235213631</updated>
-      <workItem from="1665235214791" duration="11052000" />
+      <workItem from="1665235214791" duration="11475000" />
+      <workItem from="1665256403558" duration="6000" />
+      <workItem from="1665315020689" duration="3028000" />
+      <workItem from="1665330857102" duration="250000" />
     </task>
     <task id="LOCAL-00001" summary="Initialize project.">
       <created>1665241711124</created>
@@ -86,7 +89,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665241711124</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Get articles summary (get all)">
+      <created>1665246924881</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1665246924881</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -105,6 +115,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initialize project." />
-    <option name="LAST_COMMIT_MESSAGE" value="Initialize project." />
+    <MESSAGE value="Get articles summary (get all)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Get articles summary (get all)" />
   </component>
 </project>

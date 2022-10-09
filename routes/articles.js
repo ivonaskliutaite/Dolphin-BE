@@ -25,13 +25,34 @@ const getAllArticles = () => {
   return allArticles;
 }
 
+const getArticleById = (id) => {
+    const url = 'https://www.delfi.lt/'+id;
+
+    const delfiHomepageAsPlainText = fetch(url).text();
+    const delfiHomepageDOM = new JSDOM(delfiHomepageAsPlainText).window.document;
+
+    const articleTitle = delfiHomepageDOM.querySelector('.article-title h1').textContent.trim()
+    const articleSummary = delfiHomepageDOM.querySelector('.delfi-article-lead').textContent.trim()
+    const articleContent = Array.from(delfiHomepageDOM.querySelectorAll('.row .col-xs-8 p')).map(x => x.textContent.trim())
+        .filter(t => t.length !== 0)
+
+    return {
+        id : id,
+        title : articleTitle,
+        summary : articleSummary,
+        content : articleContent
+    }
+}
+
 /* GET users listing. */
 router.get('/articles',  (req, res) => {
   res.json(getAllArticles());
 });
 
+
+
 router.get('/articles/:id', (req, res) => {
-  res.json({ id: req.params.id});
+  res.json(getArticleById(req.params.id));
 });
 
 module.exports = router;

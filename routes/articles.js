@@ -15,13 +15,14 @@ const getAllArticles = () => {
       .map(articleElement => {
         const anchorEl = articleElement.querySelector('.CBarticleTitle')
         const articleUrl = new URL(anchorEl.href)
+        const articleCategory = articleElement.querySelector('.headline-category a')?.textContent || null
         return {
           title: anchorEl.text,
           url: anchorEl.href,
-          id: parseInt(articleUrl.searchParams.get('id'))
+          id: parseInt(articleUrl.searchParams.get('id')),
+            category: articleCategory
         }
       })
-
   return allArticles;
 }
 
@@ -31,6 +32,7 @@ const getArticleById = (id) => {
     const delfiHomepageAsPlainText = fetch(url).text();
     const delfiHomepageDOM = new JSDOM(delfiHomepageAsPlainText).window.document;
 
+    const articleCategory = delfiHomepageDOM.querySelector('.headline-category').textContent.trim()
     const articleTitle = delfiHomepageDOM.querySelector('.article-title h1').textContent.trim()
     const articleSummary = delfiHomepageDOM.querySelector('.delfi-article-lead').textContent.trim()
     const articleContent = Array.from(delfiHomepageDOM.querySelectorAll('.row .col-xs-8 p')).map(x => x.textContent.trim())
@@ -40,7 +42,8 @@ const getArticleById = (id) => {
         id : id,
         title : articleTitle,
         summary : articleSummary,
-        content : articleContent
+        content : articleContent,
+        category : articleCategory
     }
 }
 
@@ -48,8 +51,6 @@ const getArticleById = (id) => {
 router.get('/articles',  (req, res) => {
   res.json(getAllArticles());
 });
-
-
 
 router.get('/articles/:id', (req, res) => {
   res.json(getArticleById(req.params.id));

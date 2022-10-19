@@ -47,6 +47,21 @@ const getArticleById = (id) => {
     }
 }
 
+router.get('/articles/saved', ((req, res) => {
+    const result = Object.values(DB).map(r => {
+        return {
+            id: r.id,
+            title: r.title
+        }
+    })
+    res.json(result)
+}))
+
+router.delete('/articles/saved/:id', ((req, res) => {
+    delete DB[req.params.id];
+    res.json();
+}))
+
 /* GET users listing. */
 router.get('/articles',  (req, res) => {
   res.json(getAllArticles());
@@ -55,5 +70,17 @@ router.get('/articles',  (req, res) => {
 router.get('/articles/:id', (req, res) => {
   res.json(getArticleById(req.params.id));
 });
+
+let DB = {}
+
+router.put('/articles/:id', ((req, res) => {
+    DB[req.body.id] = req.body
+        console.log(DB)
+    res.json({
+        id: req.params.id,
+        body: req.body
+    });
+    }
+))
 
 module.exports = router;

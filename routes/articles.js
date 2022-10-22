@@ -3,6 +3,10 @@ const router = express.Router();
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const fetch = require('sync-fetch');
+// passport +
+var ensureLogIn = require('connect-ensure-login').ensureLoggedIn;
+var ensureLoggedIn = ensureLogIn();
+// passport -
 
 const getAllArticles = () => {
   const delfiHomepageAsPlainText = fetch('https://www.delfi.lt').text();
@@ -47,7 +51,7 @@ const getArticleById = (id) => {
     }
 }
 
-router.get('/articles/saved', ((req, res) => {
+router.get('/articles/saved', ensureLoggedIn, ((req, res) => {
     const result = Object.values(DB).map(r => {
         return {
             id: r.id,
@@ -57,23 +61,23 @@ router.get('/articles/saved', ((req, res) => {
     res.json(result)
 }))
 
-router.delete('/articles/saved/:id', ((req, res) => {
+router.delete('/articles/saved/:id', ensureLoggedIn, ((req, res) => {
     delete DB[req.params.id];
     res.json();
 }))
 
 /* GET users listing. */
-router.get('/articles',  (req, res) => {
-  res.json(getAllArticles());
+router.get('/articles', ensureLoggedIn, (req, res, next) => {
+    res.json(getAllArticles());
 });
 
-router.get('/articles/:id', (req, res) => {
+router.get('/articles/:id', ensureLoggedIn, (req, res) => {
   res.json(getArticleById(req.params.id));
 });
 
 let DB = {}
 
-router.put('/articles/:id', ((req, res) => {
+router.put('/articles/:id', ensureLoggedIn, ((req, res) => {
     DB[req.body.id] = req.body
         console.log(DB)
     res.json({

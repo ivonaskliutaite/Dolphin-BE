@@ -12,7 +12,6 @@
     "jsdom": "^20.0.1",
     "morgan": "~1.9.1",
     "sync-fetch": "^0.4.2",
-
     "connect-ensure-login": "^0.1.1",
     "connect-sqlite3": "^0.9.13",
     "debug": "~2.6.9",

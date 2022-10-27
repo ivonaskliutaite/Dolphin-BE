@@ -72,7 +72,11 @@ router.get('/articles', ensureLoggedIn, (req, res, next) => {
 });
 
 router.get('/articles/:id', ensureLoggedIn, (req, res) => {
-  res.json(getArticleById(req.params.id));
+    if (DB[req.params.id]) {
+        console.log(`Return article ${req.params.id} from db`);
+        return res.json(DB[req.params.id]);
+    }
+    res.json(getArticleById(req.params.id));
 });
 
 let DB = {}
